@@ -1,58 +1,106 @@
 /* global AFRAME */
 
-if (typeof AFRAME === 'undefined') {
-  throw new Error('Component attempted to register before AFRAME was available.');
+if (typeof AFRAME === "undefined") {
+  throw new Error(
+    "Component attempted to register before AFRAME was available."
+  );
+}
+
+function addDocumentStyles() {
+  document.documentElement.style.position = "relative";
+  document.body.style.overflow = "scroll";
+  document.body.style.height = "100vh";
+}
+
+function removeDocumentStyles() {
+  document.documentElement.style.position = "";
+  document.body.style.overflow = "";
+  document.body.style.height = "";
+}
+
+function createSwipeUpEl() {
+  const div = document.createElement("div");
+  const style = {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    height: "200vh",
+    backgroundColor: "rgb(0, 0, 0, 0.5)",
+    color: "white",
+    fontSize: "24px",
+    textAlign: "center",
+    lineHeight: "100vh",
+    zIndex: 999999,
+  };
+  Object.keys(style).forEach((key) => (div.style[key] = style[key]));
+  div.innerText = "Swipe Up";
+  return div;
 }
 
 /**
  * Ios Fullscreen Helper component for A-Frame.
  */
-AFRAME.registerComponent('ios-fullscreen-helper', {
+AFRAME.registerComponent("ios-fullscreen-helper", {
   schema: {},
 
-  /**
-   * Set if component needs multiple instancing.
-   */
   multiple: false,
 
-  /**
-   * Called once when component is attached. Generally for initial setup.
-   */
-  init: function () { },
+  init() {
+    if (!AFRAME.utils.device.isIOS()) {
+      this.remove();
+      return;
+    }
+    this._bindMethods();
+    this._addEventListeners();
+    this._onOrientationChange();
+  },
 
-  /**
-   * Called when component is attached and when component data changes.
-   * Generally modifies the entity based on the data.
-   */
-  update: function (oldData) { },
+  remove() {
+    this._removeEventListeners();
+    this._removeSwipeUpEl();
+    removeDocumentStyles();
+  },
 
-  /**
-   * Called when a component is removed (e.g., via removeAttribute).
-   * Generally undoes all modifications to the entity.
-   */
-  remove: function () { },
-
-  /**
-   * Called on each scene tick.
-   */
-  // tick: function (t) { },
-
-  /**
-   * Called when entity pauses.
-   * Use to stop or remove any dynamic or background behavior such as events.
-   */
-  pause: function () { },
-
-  /**
-   * Called when entity resumes.
-   * Use to continue or add any dynamic or background behavior such as events.
-   */
-  play: function () { },
-
-  /**
-   * Event handlers that automatically get attached or detached based on scene state.
-   */
-  events: {
-    // click: function (evt) { }
-  }
+  _bindMethods() {
+    this._onOrientationChange = AFRAME.utils.bind(
+      this._onOrientationChange,
+      this
+    );
+  },
+  _addEventListeners() {
+    window.addEventListener("orientationchange", this._onOrientationChange);
+  },
+  _removeEventListeners() {
+    window.removeEventListener("orientationchange", this._onOrientationChange);
+  },
+  _addSwipeUpEl() {
+    if (this._swipeUpEl) return;
+    this._swipeUpEl = createSwipeUpEl();
+    document.body.appendChild(this._swipeUpEl);
+  },
+  _removeSwipeUpEl() {
+    if (this._swipeUpEl) document.body.removeChild(this._swipeUpEl);
+    if (this._intervalId) clearInterval(this._intervalId);
+    this._swipeUpEl = null;
+    this._intervalId = null;
+  },
+  _onOrientationChange() {
+    const isLandscape = window.orientation !== 0;
+    if (isLandscape) {
+      addDocumentStyles();
+      this._addSwipeUpEl();
+      this._intervalId = setInterval(() => {
+        const screenHeight = Math.min(
+          window.screen.width,
+          window.screen.height
+        );
+        const show = screenHeight - window.innerHeight > 40;
+        if (!show) this._removeSwipeUpEl();
+      }, 100);
+    } else {
+      removeDocumentStyles();
+      this._removeSwipeUpEl();
+    }
+  },
 });

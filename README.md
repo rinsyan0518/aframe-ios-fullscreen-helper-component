@@ -1,8 +1,12 @@
 ## aframe-ios-fullscreen-helper-component
 
-A Ios Fullscreen Helper component for A-Frame.
+Quick-fix for iOS.
 
-For [A-Frame](https://aframe.io).
+* Cannot fullscreen on the iPhone X, 11, and so on models and when having several tabs opened.
+
+Don't use `embedded` component when use this component.
+
+ For [A-Frame](https://aframe.io).
 
 ### API
 
@@ -12,12 +16,13 @@ For [A-Frame](https://aframe.io).
 
 ### Installation
 
-#### npm
+#### npm or yarn
 
-Install via npm:
+Install via npm or yarn:
 
 ```bash
 npm install git+ssh://git@github.com:rinsyan0518/aframe-ios-fullscreen-helper-component.git
+yarn add git+ssh://git@github.com:rinsyan0518/aframe-ios-fullscreen-helper-component.git
 ```
 
 Then require and use.
@@ -28,8 +33,5 @@ require('aframe-ios-fullscreen-helper-component');
 ```
 
 ```html
-<body>
-  <a-scene ios-fullscreen-helper>
-  </a-scene>
-</body>
+<a-scene ios-fullscreen-helper></a-scene>
 ```
