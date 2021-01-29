@@ -8,6 +8,8 @@ Don't use `embedded` component when use this component.
 
 For [A-Frame](https://aframe.io).
 
+Check [GitHub Pages](https://rinsyan0518.github.io/aframe-ios-fullscreen-helper-component/).
+
 ### API
 
 | Property | Description | Default Value |
