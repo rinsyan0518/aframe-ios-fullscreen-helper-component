@@ -78,6 +78,7 @@ AFRAME.registerComponent("ios-fullscreen-helper", {
     if (this._swipeUpEl) return;
     this._swipeUpEl = createSwipeUpEl();
     document.body.appendChild(this._swipeUpEl);
+    this.el.emit('addswipeup')
   },
   _removeSwipeUpEl() {
     if (this._swipeUpEl) document.body.removeChild(this._swipeUpEl);
@@ -96,7 +97,10 @@ AFRAME.registerComponent("ios-fullscreen-helper", {
           window.screen.height
         );
         const show = screenHeight - window.innerHeight > 40;
-        if (!show) this._removeSwipeUpEl();
+        if (!show) {
+          this._removeSwipeUpEl();
+          this.el.emit('removeswipeup')
+        }
       }, 100);
     } else {
       removeDocumentStyles();

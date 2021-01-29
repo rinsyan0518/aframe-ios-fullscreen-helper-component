@@ -2,17 +2,24 @@
 
 Quick-fix for iOS.
 
-* Cannot fullscreen on the iPhone X, 11, and so on models and when having several tabs opened.
+- Cannot fullscreen on the iPhone X, 11, and so on models and when having several tabs opened.
 
 Don't use `embedded` component when use this component.
 
- For [A-Frame](https://aframe.io).
+For [A-Frame](https://aframe.io).
 
 ### API
 
 | Property | Description | Default Value |
 | -------- | ----------- | ------------- |
 |          |             |               |
+
+### Events
+
+| Property      | Description |
+| ------------- | ----------- |
+| addswipeup    |             |
+| removeswipeup |             |
 
 ### Installation
 
@@ -28,8 +35,8 @@ yarn add git+ssh://git@github.com:rinsyan0518/aframe-ios-fullscreen-helper-compo
 Then require and use.
 
 ```js
-require('aframe');
-require('aframe-ios-fullscreen-helper-component');
+require("aframe");
+require("aframe-ios-fullscreen-helper-component");
 ```
 
 ```html
