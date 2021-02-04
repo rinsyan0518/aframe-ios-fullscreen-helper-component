@@ -26,11 +26,12 @@ function createSwipeUpEl() {
     left: 0,
     right: 0,
     height: "200vh",
-    backgroundColor: "rgb(0, 0, 0, 0.5)",
+    backgroundColor: "rgba(36, 202, 255, 0.65)",
     color: "white",
     fontSize: "24px",
     textAlign: "center",
     lineHeight: "100vh",
+    fontFamily: "Consolas, Andale Mono, Courier New, monospace",
     zIndex: 999999,
   };
   Object.keys(style).forEach((key) => (div.style[key] = style[key]));
